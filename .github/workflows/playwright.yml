@@ -1,0 +1,153 @@
+name: Playwright Weekly Suite
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'tests/**'
+      - 'fixtures/**'
+      - 'utils/**'
+      - 'mocking/**'
+      - 'playwright.config.ts'
+      - '.github/workflows/playwright.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'tests/**'
+      - 'fixtures/**'
+      - 'utils/**'
+      - 'mocking/**'
+      - 'playwright.config.ts'
+      - '.github/workflows/playwright.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Playwright project browser'
+        required: true
+        default: 'edge'
+        type: choice
+        options:
+          - chrome
+          - edge
+          - firefox
+      grep_tag:
+        description: 'Run only tagged suites, e.g. @api or @week3'
+        required: true
+        default: '@ci'
+        type: string
+
+concurrency:
+  group: playwright-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    timeout-minutes: 60
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, edge, firefox]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      run: npx playwright install chromium firefox msedge
+
+    - name: Run tagged suites for matrix browser
+      run: npx playwright test --project=${{ matrix.browser }} --grep "@ci"
+
+    - name: Build results summary
+      if: always()
+      run: npm run results:summary
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.browser }}
+        path: playwright-report/
+        retention-days: 30
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.browser }}
+        path: test-results/
+        retention-days: 30
+
+    - name: Upload evidence bundle
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: artifacts-${{ matrix.browser }}
+        path: artifacts/
+        retention-days: 30
+
+  targeted-run:
+    if: github.event_name == 'workflow_dispatch'
+    timeout-minutes: 60
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      run: npx playwright install chromium firefox msedge
+
+    - name: Run selected tag on selected browser
+      run: npx playwright test --project=${{ inputs.browser }} --grep "${{ inputs.grep_tag }}"
+
+    - name: Build results summary
+      if: always()
+      run: npm run results:summary
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ inputs.browser }}-${{ github.run_number }}
+        path: playwright-report/
+        retention-days: 30
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ inputs.browser }}-${{ github.run_number }}
+        path: test-results/
+        retention-days: 30
+
+    - name: Upload evidence bundle
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: artifacts-${{ inputs.browser }}-${{ github.run_number }}
+        path: artifacts/
+        retention-days: 30
