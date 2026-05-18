@@ -1,15 +1,14 @@
 import { test, expect } from '../../../fixtures/test-fixtures';
-import { selectors } from '../../../utils/selectors';
+import { selectors, ORANGEHRM_LOGIN_URL, ORANGEHRM_CREDENTIALS } from '../../../utils/selectors';
 
 test.describe('Week 2 - Task 3 Artifacts and Reporting @week2 @task3 @artifacts @ci', () => {
-  test('executes flow for trace and video artifact generation', async ({ page, openLabApp, withApiMocks }) => {
-    await withApiMocks();
-    await openLabApp();
-
-    await page.locator(selectors.loadOrdersButton).click();
-    await page.locator(selectors.loadProfileButton).click();
-
-    await expect(page.locator(selectors.orderRow)).toHaveCount(2);
-    await expect(page.locator(selectors.profileName)).toContainText('Avery Quinn');
+  test('login and navigate to generate trace, video and screenshot artifacts', async ({ page }) => {
+    await page.goto(ORANGEHRM_LOGIN_URL);
+    await page.waitForLoadState('networkidle');
+    await page.locator(selectors.usernameInput).fill(ORANGEHRM_CREDENTIALS.username);
+    await page.locator(selectors.passwordInput).fill(ORANGEHRM_CREDENTIALS.password);
+    await page.locator(selectors.loginButton).click();
+    await expect(page.locator(selectors.sidebarMenu)).toBeVisible({ timeout: 30_000 });
+    await page.screenshot({ path: 'artifacts/evidence/week2-task3-dashboard.png', fullPage: true });
   });
 });

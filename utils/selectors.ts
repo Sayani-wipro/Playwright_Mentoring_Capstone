@@ -1,10 +1,22 @@
+/** Selectors for https://opensource-demo.orangehrmlive.com */
 export const selectors = {
-  pageTitle: '[data-testid="page-title"]',
-  usernameInput: '[data-testid="username-input"]',
-  loginButton: '[data-testid="login-button"]',
-  welcomeMessage: '[data-testid="welcome-message"]',
-  loadOrdersButton: '[data-testid="load-orders"]',
-  orderRow: '[data-testid="order-row"]',
-  loadProfileButton: '[data-testid="load-profile"]',
-  profileName: '[data-testid="profile-name"]'
+  // Login page
+  loginTitle: 'h5',
+  usernameInput: 'input[placeholder="Username"]',
+  passwordInput: 'input[placeholder="Password"]',
+  loginButton: 'button[type="submit"]',
+  loginError: '.oxd-alert-content-text',
+
+  // Post-login dashboard
+  dashboardTitle: '.oxd-topbar-header-breadcrumb',
+  userDropdownName: '.oxd-userdropdown-name',
+  sidebarMenu: '.oxd-sidepanel'
+} as const;
+
+export const ORANGEHRM_LOGIN_URL =
+  'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
+
+export const ORANGEHRM_CREDENTIALS = {
+  username: 'Admin',
+  password: 'admin123'
 } as const;
