@@ -2,8 +2,6 @@ import { test, expect } from '../../../fixtures/test-fixtures';
 import AxeBuilder from '@axe-core/playwright';
 import { LOGIN_URL } from '../../../utils/selectors';
 
-test.describe.configure({ projects: ['chrome', 'edge'] });
-
 test.describe('Week 3 - Task 5 Accessibility and Visual Regression @week3 @task5 @a11y @visual @ci', () => {
   test('login page passes a11y rules and stores visual baseline', async ({ page }) => {
     test.setTimeout(90000);

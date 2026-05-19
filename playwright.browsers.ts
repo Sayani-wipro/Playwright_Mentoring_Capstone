@@ -1,6 +1,9 @@
 import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test';
 
-export const browsers = {
+type Project = NonNullable<PlaywrightTestConfig['projects']>[number];
+
+export const browsers: { all: Project[]; chromeAndEdge: Project[] } = {
   // All browsers
   all: [
     {
