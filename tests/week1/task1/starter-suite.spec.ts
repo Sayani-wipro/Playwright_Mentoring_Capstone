@@ -1,5 +1,5 @@
 import { test, expect } from '../../../fixtures/test-fixtures';
-import { selectors, LOGIN_URL, ORANGEHRM_CREDENTIALS } from '../../../utils/selectors';
+import { selectors, LOGIN_URL, CREDENTIALS } from '../../../utils/selectors';
 
 test.describe('Practice Test Automation Login Suite @week1 @task1 @smoke @ui @ci', () => {
   test('renders Practice Test Automation login page with title', async ({ page }) => {
@@ -13,8 +13,8 @@ test.describe('Practice Test Automation Login Suite @week1 @task1 @smoke @ui @ci
     test.setTimeout(90000);
     await page.goto(LOGIN_URL, { timeout: 90000 });
     await page.waitForLoadState('networkidle');
-    await page.locator(selectors.usernameInput).fill(ORANGEHRM_CREDENTIALS.username);
-    await page.locator(selectors.passwordInput).fill(ORANGEHRM_CREDENTIALS.password);
+    await page.locator(selectors.usernameInput).fill(CREDENTIALS.username);
+    await page.locator(selectors.passwordInput).fill(CREDENTIALS.password);
     await page.locator(selectors.loginButton).click();
     await expect(page).toHaveURL(/logged-in-successfully/);
     await expect(page.locator(selectors.dashboardTitle)).toContainText('Logged In Successfully');

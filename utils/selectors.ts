@@ -16,7 +16,7 @@ export const selectors = {
 export const LOGIN_URL =
   'https://practicetestautomation.com/practice-test-login/';
 
-export const ORANGEHRM_CREDENTIALS = {
+export const CREDENTIALS = {
   username: 'student',
   password: 'Password123'
 } as const;
