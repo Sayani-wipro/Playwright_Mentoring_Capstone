@@ -1,22 +1,22 @@
-/** Selectors for https://opensource-demo.orangehrmlive.com */
+/** Selectors for https://practicetestautomation.com/practice-test-login/ */
 export const selectors = {
   // Login page
-  loginTitle: 'h5',
-  usernameInput: 'input[placeholder="Username"]',
-  passwordInput: 'input[placeholder="Password"]',
-  loginButton: 'button[type="submit"]',
-  loginError: '.oxd-alert-content-text',
+  loginTitle: 'h2',
+  usernameInput: '#username',
+  passwordInput: '#password',
+  loginButton: '#submit',
+  loginError: '#error',
 
-  // Post-login dashboard
-  dashboardTitle: '.oxd-topbar-header-breadcrumb',
-  userDropdownName: '.oxd-userdropdown-name',
-  sidebarMenu: '.oxd-sidepanel'
+  // Post-login page
+  dashboardTitle: '.post-title',
+  userDropdownName: 'a:has-text("Log out")',
+  sidebarMenu: 'a:has-text("Log out")'
 } as const;
 
-export const ORANGEHRM_LOGIN_URL =
-  'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
+export const LOGIN_URL =
+  'https://practicetestautomation.com/practice-test-login/';
 
 export const ORANGEHRM_CREDENTIALS = {
-  username: 'Admin',
-  password: 'admin123'
+  username: 'student',
+  password: 'Password123'
 } as const;

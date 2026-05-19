@@ -1,4 +1,6 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
+import { browsers } from './playwright.browsers';
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: false,
@@ -23,18 +25,5 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     viewport: { width: 1366, height: 768 }
   },
-  projects: [
-    {
-      name: 'chrome',
-      use: { ...devices['Desktop Chrome'], browserName: 'chromium', channel: 'chrome' }
-    },
-    {
-      name: 'edge',
-      use: { ...devices['Desktop Edge'], browserName: 'chromium', channel: 'msedge' }
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'], browserName: 'firefox' }
-    },
-  ]
+  projects: browsers.all
 });

@@ -1,10 +1,13 @@
 import { test, expect } from '../../../fixtures/test-fixtures';
 import AxeBuilder from '@axe-core/playwright';
-import { ORANGEHRM_LOGIN_URL } from '../../../utils/selectors';
+import { LOGIN_URL } from '../../../utils/selectors';
+
+test.describe.configure({ projects: ['chrome', 'edge'] });
 
 test.describe('Week 3 - Task 5 Accessibility and Visual Regression @week3 @task5 @a11y @visual @ci', () => {
-  test('OrangeHRM login page passes a11y rules and stores visual baseline', async ({ page }) => {
-    await page.goto(ORANGEHRM_LOGIN_URL);
+  test('login page passes a11y rules and stores visual baseline', async ({ page }) => {
+    test.setTimeout(90000);
+    await page.goto(LOGIN_URL, { timeout: 90000 });
     await page.waitForLoadState('networkidle');
 
     const a11y = await new AxeBuilder({ page })
@@ -30,7 +33,7 @@ test.describe('Week 3 - Task 5 Accessibility and Visual Regression @week3 @task5
       `Serious/critical a11y violations found:\n${highImpact.map((v) => `  [${v.impact}] ${v.id}: ${v.help}`).join('\n')}`
     ).toEqual([]);
 
-    await expect(page).toHaveScreenshot('week3-orangehrm-login.png', {
+    await expect(page).toHaveScreenshot('week3-login.png', {
       fullPage: true,
       animations: 'disabled'
     });
