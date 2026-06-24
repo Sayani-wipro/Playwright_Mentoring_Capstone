@@ -1,0 +1,26 @@
+{
+  "name": "playwrightcapstonework-lab",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test --project=chromium",
+    "test:all": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project='Mobile Chrome' --project='Mobile Safari'",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:ui": "playwright test --project=chromium --ui",
+    "test:debug": "playwright test --project=chromium --debug",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.2",
+    "dotenv": "^17.4.2"
+  }
+}
